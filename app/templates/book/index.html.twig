@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Books</h1>
+        <div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_book_new') }}" class="btn btn-success me-2">
+                    <span class="icon icon-plus"></span>Add New Book
+                </a>
+                <form method="post" action="{{ path('app_books_import') }}" class="import-form" onsubmit="return confirm('Are you sure you want to import books from datasource/books.json? This will add new books to the database.')"
+                    <input type="hidden" name="_token" value="{{ csrf_token('import') }}">
+                    <button type="submit" class="btn btn-info me-2">
+                        <span class="icon icon-upload"></span>Import Books
+                    </button>
+                </form>
+            {% endif %}
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if books is empty %}
+        <div class="alert alert-info">
+            No books found in the library.
+        </div>
+    {% else %}
+        <div class="book-list">
+            {% for book in books %}
+                <div class="mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text text-muted">by {{ book.author }}</p>
+                            <div class="book-meta mb-3">
+                                {% if book.publicationYear %}
+                                    <span><strong>Published:</strong> {{ book.publicationYear }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="book-actions d-flex flex-wrap">
+                                <a href="{{ path('app_book_preview', {id: book.id}) }}" class="btn btn-outline-secondary btn-sm me-2 mb-2" title="View Details">
+                                    <span class="icon icon-book"></span>View Details
+                                </a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_book_edit', {id: book.id}) }}" class="btn btn-outline-secondary btn-sm me-2 mb-2" title="Edit">
+                                        <span class="icon icon-edit"></span>Edit
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-sm mb-2" title="Delete" onclick="deleteBook({{ book.id }}, '{{ book.title|e('js') }}')">
+                                        <span class="icon icon-delete"></span>Delete
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') and books is not empty %}
+        <div class="text-center mt-4">
+            <a href="{{ path('app_books_export') }}" class="btn btn-outline-success">
+                <span class="icon icon-download"></span>Export Books to JSON
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% if is_granted('ROLE_ADMIN') %}
+    <!-- Hidden delete form -->
+    <form id="delete-form" method="post" class="hidden-form">
+        <input type="hidden" name="_token" id="delete-token">
+    </form>
+
+{% endif %}
+{% endblock %}

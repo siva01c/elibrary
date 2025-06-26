@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Print: {{ book.title }}{% endblock %}
+
+{% block body %}
+<div class="print-page">
+    <div class="no-print print-controls">
+        <button onclick="window.print()" class="btn btn-primary">Print This Page</button>
+        <a href="{{ path('app_book_preview', {id: book.id}) }}" class="btn btn-secondary">Back to Book</a>
+    </div>
+
+    <div class="print-header">
+        <div class="print-title">{{ book.title }}</div>
+        <div class="print-author">by {{ book.author }}</div>
+    </div>
+
+    <div class="print-meta">
+        <table>
+            {% if book.isbn %}
+                <tr>
+                    <td>ISBN:</td>
+                    <td>{{ book.isbn }}</td>
+                </tr>
+            {% endif %}
+            {% if book.publicationYear %}
+                <tr>
+                    <td>Publication Year:</td>
+                    <td>{{ book.publicationYear }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td>Author:</td>
+                <td>{{ book.author }}</td>
+            </tr>
+        </table>
+    </div>
+
+    {% if book.description %}
+        <div class="print-content">
+            <h2>Annotation</h2>
+            <div>
+                {{ book.description|nl2br }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
