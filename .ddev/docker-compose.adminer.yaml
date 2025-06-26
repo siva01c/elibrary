@@ -1,0 +1,23 @@
+services:
+  adminer:
+    container_name: ddev-${DDEV_SITENAME}-adminer
+    image: adminer:latest
+    restart: "no"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+      - ADMINER_DESIGN=pepa-linha-dark
+    networks:
+      - ddev_default
+    ports:
+      - "8080:8080"
+    external_links:
+      - ddev-router:${DDEV_SITENAME}.ddev.site
+    depends_on:
+      - db
+networks:
+  ddev_default:
+    external: true
+    name: ddev_default

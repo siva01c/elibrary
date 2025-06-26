@@ -1,0 +1,12 @@
+.claude
+.history
+vendor/
+var/
+bin/
+app/.env
+app/.env.dev
+app/.env.test
+.idea/
+.vscode/
+.editorconfig
+.ddev/traefik
