@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.yml
+docker-compose.override.yml
+Dockerfile
+.dockerignore
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+app/var/log/*
+
+# Cache
+app/var/cache/*
+!app/var/cache/.gitkeep
+
+# Node modules (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+dist/
+build/
+
+# Environment files (will be handled separately)
+.env.local
+.env.*.local
