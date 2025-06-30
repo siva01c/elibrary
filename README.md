@@ -16,7 +16,7 @@ Developed on Docker version 27.5.1.
 Clone project:
 
 ```
-git clone git@github.com:siva01c/elibrary.git
+git clone git@github.com:siva01c/elibrary.git --branch=docker
 ```
 
 **Create the `.env` file**:
@@ -57,7 +57,7 @@ docker compose up -d
 3. **Install dependencies** (if not already installed):
 
    ```
-
+   composer install
    ```
 
 4. **Prepare migration**:
